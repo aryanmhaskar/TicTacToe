@@ -4,6 +4,7 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Random;
 
 public class SelectorButton extends JButton implements ActionListener{
     ImageIcon X,O;
@@ -19,13 +20,27 @@ public class SelectorButton extends JButton implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (TicTacToe.playerTurn && value == 0) {
+        if (TicTacToe.isPlayerTurn && value == 0) {
             value = 1;
-            TicTacToe.playerTurn = false;
+            if (TicTacToe.isSinglePlayer){
+                Random rand = new Random();
+                int randomizer = rand.nextInt(9);
+                System.out.println(randomizer);
+                for (SelectorButton button: TicTacToe.buttons) {
+                    if (button.value == 0) {
+                        button.value = 2;
+                        button.setIcon(O);
+                        break;
+                    }
+                }
+            }
+            else {
+                TicTacToe.isPlayerTurn = false;
+            }
         }
         else if (value == 0) {
             value = 2;
-            TicTacToe.playerTurn = true;
+            TicTacToe.isPlayerTurn = true;
         }
         TicTacToe.checkForWin();
         switch (value) {

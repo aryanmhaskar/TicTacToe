@@ -7,8 +7,9 @@ import java.awt.event.ActionListener;
 
 public class TicTacToe extends JFrame {
     public static SelectorButton[] buttons = new SelectorButton[9];
-    public static boolean playerTurn = true;
+    public static boolean isPlayerTurn = true;
     public static TicTacToe objectVariable;
+    public static boolean isSinglePlayer;
 
     public TicTacToe() {
         super ("TicTacToe");
@@ -29,21 +30,29 @@ public class TicTacToe extends JFrame {
         JPanel mainPanel = new JPanel();
         JLabel mainLabel = new JLabel("TicTacToe");
         mainLabel.setFont(new java.awt.Font("Arial", Font.PLAIN, 100));
-        JButton startButton = new JButton("Start Playing");
-        startButton.setFont(new java.awt.Font("Arial", Font.BOLD, 50));
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                objectVariable.getContentPane().removeAll();
-                objectVariable.getContentPane().invalidate();
-                objectVariable.getContentPane().add(createGamePanel());
-                objectVariable.getContentPane().revalidate();
-                System.out.println("Function should have been called");
-            }
+        JButton twoPlayerButton = new JButton("Two Player");
+        twoPlayerButton.setFont(new java.awt.Font("Arial", Font.BOLD, 50));
+        twoPlayerButton.addActionListener(e -> {
+            objectVariable.getContentPane().removeAll();
+            objectVariable.getContentPane().invalidate();
+            objectVariable.getContentPane().add(createGamePanel());
+            objectVariable.getContentPane().revalidate();
+            System.out.println("Function should have been called");
         });
-        mainPanel.setLayout(new GridLayout(2, 0));
+        JButton singlePlayerButton = new JButton("Single Player");
+        singlePlayerButton.setFont(new java.awt.Font("Arial", Font.BOLD, 50));
+        singlePlayerButton.addActionListener(e -> {
+            objectVariable.getContentPane().removeAll();
+            objectVariable.getContentPane().invalidate();
+            objectVariable.getContentPane().add(createGamePanel());
+            objectVariable.getContentPane().revalidate();
+            System.out.println("Function should have been called");
+            isSinglePlayer = true;
+        });
+        mainPanel.setLayout(new GridLayout(3, 0));
         mainPanel.add(mainLabel);
-        mainPanel.add(startButton);
+        mainPanel.add(singlePlayerButton);
+        mainPanel.add(twoPlayerButton);
         setVisible(true);
         return mainPanel;
     }
@@ -61,7 +70,7 @@ public class TicTacToe extends JFrame {
 
     public void createEndPanel(int winner) {
         JPanel endPanel = new JPanel();
-        endPanel.setLayout(new GridLayout(2, 0));
+        endPanel.setLayout(new GridLayout(3, 0));
         if (winner == 1) {
             JLabel endLabel = new JLabel("You Won!");
             endLabel.setFont(new java.awt.Font("Arial", Font.PLAIN, 100));
@@ -77,18 +86,32 @@ public class TicTacToe extends JFrame {
             endLabel.setFont(new java.awt.Font("Arial", Font.PLAIN, 100));
             endPanel.add(endLabel);
         }
-        JButton playAgain = new JButton("Play Again");
-        playAgain.setFont(new java.awt.Font("Arial", Font.BOLD, 50));
-        playAgain.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                objectVariable.getContentPane().removeAll();
-                objectVariable.getContentPane().invalidate();
-                objectVariable.getContentPane().add(createGamePanel());
-                objectVariable.getContentPane().revalidate();
+        JButton playAgain1 = new JButton("Play Again- Single");
+        playAgain1.setFont(new java.awt.Font("Arial", Font.BOLD, 35));
+        playAgain1.addActionListener(e -> {
+            objectVariable.getContentPane().removeAll();
+            objectVariable.getContentPane().invalidate();
+            objectVariable.getContentPane().add(createGamePanel());
+            objectVariable.getContentPane().revalidate();
+            for (SelectorButton button: buttons) {
+                button.value = 0;
             }
+            isSinglePlayer = true;
         });
-        endPanel.add(playAgain);
+        JButton playAgain2 = new JButton("Play Again- Double");
+        playAgain2.setFont(new java.awt.Font("Arial", Font.BOLD, 35));
+        playAgain2.addActionListener(e -> {
+            objectVariable.getContentPane().removeAll();
+            objectVariable.getContentPane().invalidate();
+            objectVariable.getContentPane().add(createGamePanel());
+            objectVariable.getContentPane().revalidate();
+            for (SelectorButton button: buttons) {
+                button.value = 0;
+            }
+            isSinglePlayer = false;
+        });
+        endPanel.add(playAgain1);
+        endPanel.add(playAgain2);
         objectVariable.getContentPane().removeAll();
         objectVariable.getContentPane().invalidate();
         objectVariable.getContentPane().add(endPanel);
