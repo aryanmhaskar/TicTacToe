@@ -24,13 +24,16 @@ public class SelectorButton extends JButton implements ActionListener{
             value = 1;
             if (TicTacToe.isSinglePlayer){
                 Random rand = new Random();
-                int randomizer = rand.nextInt(9);
-                System.out.println(randomizer);
-                for (SelectorButton button: TicTacToe.buttons) {
-                    if (button.value == 0) {
-                        button.value = 2;
-                        button.setIcon(O);
-                        break;
+                boolean exit = true;
+                while (exit) {
+                    for (SelectorButton button : TicTacToe.buttons) {
+                        boolean randomizer = rand.nextBoolean();
+                        if (button.value == 0 && randomizer) {
+                            button.value = 2;
+                            button.setIcon(O);
+                            exit = false;
+                            break;
+                        }
                     }
                 }
             }
